@@ -68,16 +68,15 @@ int main(int argc,char** argv)
 {
 DIR *entry;
 struct dirent *dir;
-char *wd;
 
-if(argc < 2){
-	wd = ".";
-}else{
-	wd = argv[1];
+if(argc >= 2){
+	if(chdir(argv[1]) != 0){
+		perror("Directory Error");
+		exit(-1);
+	}
 }
 
-
-entry = opendir(wd);
+entry = opendir(".");
 
 if(!entry){
 	perror("Failed to open folder");
@@ -90,6 +89,9 @@ while((dir = readdir(entry)) != NULL){
 	}
 
 }
+
+free(entry);
+free(dir);
 
 return 0;
 }
